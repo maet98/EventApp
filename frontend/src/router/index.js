@@ -7,28 +7,28 @@ import VerCompras from "../views/VerCompras.vue";
 Vue.use(VueRouter);
 
 const routes = [
-  {
-    path: "/",
-    name: "Home",
-    component: Home
-  },
-  {
-    path: "/compras",
-    name: "Compras",
-    component: VerCompras
-  },
-  {
-    path: "/usuarios",
-    name: "Usuarios",
-    component: Usuario
-  }
+    {
+        path: "/",
+        name: "Home",
+        component: Home
+    },
+    {
+        path: "/compras",
+        name: "Compras",
+        component: VerCompras
+    },
+    {
+        path: "/usuarios",
+        name: "Usuarios",
+        component: Usuario
+    }
 
 ];
 
 const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes
+    mode: "history",
+    base: process.env.BASE_URL,
+    routes
 });
 
 export default router;

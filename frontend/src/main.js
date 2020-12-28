@@ -10,8 +10,8 @@ Vue.config.productionTip = false;
 Vue.use(DatetimePicker)
 
 new Vue({
-  router,
-  store,
-  vuetify,
-  render: h => h(App)
+    router,
+    store,
+    vuetify,
+    render: h => h(App)
 }).$mount("#app");
