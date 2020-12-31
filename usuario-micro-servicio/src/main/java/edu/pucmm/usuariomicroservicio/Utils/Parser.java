@@ -1,8 +1,5 @@
 package edu.pucmm.usuariomicroservicio.Utils;
 
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import org.springframework.stereotype.Component;
 import org.apache.commons.codec.digest.DigestUtils;
 
