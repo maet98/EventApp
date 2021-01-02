@@ -3,11 +3,13 @@ package edu.pucmm.comprasmicroservicio.Controller;
 import edu.pucmm.comprasmicroservicio.Service.ComprasService;
 import edu.pucmm.comprasmicroservicio.entity.Compras;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RefreshScope
 @RequestMapping("/compras")
 public class ComprasController {
 

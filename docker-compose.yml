@@ -1,0 +1,81 @@
+version: '3.7'
+
+services:
+  config-server:
+    image: maet98/config-server
+    ports:
+      - 8888:8888
+    networks:
+      - mi-red
+
+  eureka-server:
+    image: maet98/eureka-server
+    ports:
+      - 8761:8761
+    networks:
+      - mi-red
+
+  base-datos-compras:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: compras
+    ports:
+      - 3307:3306
+    networks:
+      - mi-red
+
+  base-datos-usuarios:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: usuarios
+    ports:
+      - 3308:3306
+    networks:
+      - mi-red
+        
+  microservicio-usuario:
+    image: maet98/microservicio-usuario
+    environment:
+      base-datos-usuarios: base-datos-usuarios
+      eureka-server: eureka-server
+      config-server: config-server
+    networks:
+      - mi-red
+    depends_on:
+      - base-datos-usuarios
+      - config-server
+
+  microservicio-compras:
+    image: maet98/microservicio-compra
+    environment:
+      base-datos-usuarios: base-datos-compras
+      eureka-server: eureka-server
+      config-server: config-server
+    networks:
+      - mi-red
+    depends_on:
+      - base-datos-usuarios
+      - config-server
+
+
+  api-gateway:
+    image: maet98/api-gateway
+    ports:
+      - 8989:8989
+    environment:
+      eureka-server: eureka-server
+      config-server: config-server
+    depends_on:
+      - config-server
+
+  app-web:
+    image: maet98/webserver
+    ports:
+      - 8080:80
+
+networks:
+  mi-red:

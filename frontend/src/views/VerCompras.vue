@@ -23,20 +23,21 @@
 
 <script>
     import axios from "axios"
-    let apiUri = ""
+    let apiUri = "http://localhost:8989"
 
   export default {
     data () {
       return {
           search: '',
         headers: [
-          { text: 'Cliente', value: 'cliente' },
+          { text: 'Cliente', value: 'usuario' },
           {
             text: 'Plan',
             value: 'plan',
           },
           { text: 'Costo', value: 'costo' },
-          { text: 'Fecha del evento', value: 'fecha' }
+          { text: 'Fecha del evento', value: 'fechaEvento' },
+          { text: 'Fecha del reservacion', value: 'fechaCompra' }
         ],
         events: [
           {
@@ -72,8 +73,9 @@
       },
       methods: {
           getEvents() {
-              axios.get(apiUri + "/events")
+              axios.get(apiUri + "/event/compras")
                   .then(ans => {
+                      console.log(ans.data);
                       this.events = ans.data;
                   })
           }

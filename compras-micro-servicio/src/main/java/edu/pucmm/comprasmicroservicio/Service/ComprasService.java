@@ -3,11 +3,13 @@ package edu.pucmm.comprasmicroservicio.Service;
 import edu.pucmm.comprasmicroservicio.Repository.ComprasRepository;
 import edu.pucmm.comprasmicroservicio.entity.Compras;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RefreshScope
 public class ComprasService {
 
     @Autowired

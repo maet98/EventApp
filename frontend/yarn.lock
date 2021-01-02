@@ -7791,6 +7791,11 @@ vuetify-datetime-picker@^2.1.1:
     vue "^2.6.10"
     vuetify "^2.1.3"
 
+vuetify-dialog@^2.0.13:
+  version "2.0.13"
+  resolved "https://registry.yarnpkg.com/vuetify-dialog/-/vuetify-dialog-2.0.13.tgz#ff9b848311d0dde0e1f1c45c2135e504f4ff1dcf"
+  integrity sha512-3m3sia5brbS4amW5gFK3KSUpG9g4MHipOe64fZ9+AFucHRGrK3js5gTiYhx4SSGY3tbKxM+frZMjO6USGuVbzA==
+
 vuetify-loader@^1.3.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/vuetify-loader/-/vuetify-loader-1.6.0.tgz#05df0805b3ab2ff0de198109d34f9da3f69da667"

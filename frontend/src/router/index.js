@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Usuario from "../views/Usuario.vue";
 import VerCompras from "../views/VerCompras.vue";
+import UsuarioForm from "../components/UsuarioForm.vue";
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,11 @@ const routes = [
         path: "/usuarios",
         name: "Usuarios",
         component: Usuario
+    },
+    {
+        path: "/usuario",
+        name: "Usuario",
+        component: UsuarioForm
     }
 
 ];
