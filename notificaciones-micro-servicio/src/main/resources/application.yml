@@ -1,0 +1,23 @@
+server:
+  port: 0
+
+spring:
+  jpa:
+    hibernate.ddl-auto: update
+    show-sql: true
+  datasource:
+    url: jdbc:${MYSQL_URL:mysql://localhost:3306/notificacion}
+    username: root
+    password: 1998
+    initialization-mode: never
+  application:
+    name: Notificacion-Servicio
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    serviceUrl:
+      defaultZone: http://${eureka-server:localhost}:8761/eureka
+  instance:
+    hostname: localhost

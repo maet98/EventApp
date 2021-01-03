@@ -55,7 +55,8 @@ public class UserServices {
         if(ur.findByUsername(user.getUsername()) != null){
             return false;
         }
-
+        User userResponse = template.postForObject("http://NOTIFICACION-SERVICIO/sendAccountNotification", user, User.class);
+        System.out.println(userResponse.getEmail());
         ur.save(user);
         return true;
     }

@@ -43,6 +43,7 @@ services:
       base-datos-usuarios: base-datos-usuarios
       eureka-server: eureka-server
       config-server: config-server
+      MYSQL_URL: mysql://base-datos-usuarios:3308/usuarios
     networks:
       - mi-red
     depends_on:
@@ -55,10 +56,11 @@ services:
       base-datos-usuarios: base-datos-compras
       eureka-server: eureka-server
       config-server: config-server
+      MYSQL_URL: mysql://base-datos-compras:3307/compras
     networks:
       - mi-red
     depends_on:
-      - base-datos-usuarios
+      - base-datos-compras
       - config-server
 
 
@@ -75,7 +77,7 @@ services:
   app-web:
     image: maet98/webserver
     ports:
-      - 8080:80
+      - 80:8080
 
 networks:
   mi-red:

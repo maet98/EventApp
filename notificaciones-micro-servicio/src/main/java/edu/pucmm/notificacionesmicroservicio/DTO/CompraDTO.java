@@ -1,22 +1,16 @@
-package edu.pucmm.comprasmicroservicio.entity;
+package edu.pucmm.notificacionesmicroservicio.DTO;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.time.LocalDate;
+import java.util.List;
 
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class Compras {
-    @GeneratedValue
-    @Id
+public class CompraDTO {
     private Long id;
     private String usuario;
     private LocalDate fechaEvento;
