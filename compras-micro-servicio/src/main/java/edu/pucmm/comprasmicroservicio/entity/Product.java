@@ -1,4 +1,4 @@
-package edu.pucmm.notificacionesmicroservicio.Classes;
+package edu.pucmm.comprasmicroservicio.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,10 +7,10 @@ import lombok.Setter;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@Entity
 public class Product {
     @Id
     private String name;

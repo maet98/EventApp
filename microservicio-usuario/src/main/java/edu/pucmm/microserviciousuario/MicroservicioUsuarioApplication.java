@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 public class MicroservicioUsuarioApplication{
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         ApplicationContext applicationContext = SpringApplication.run(MicroservicioUsuarioApplication.class, args);
         UserServices userServices = (UserServices) applicationContext.getBean("userServices");
         userServices.createAdmin();

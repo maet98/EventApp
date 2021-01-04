@@ -1,6 +1,6 @@
 <template>
     <div id="App" >
-        <div id="nav">
+        <div id="nav" v-if="auth">
             <router-link to="/">Dashboard</router-link> |
             <router-link to="/usuarios">Usuario</router-link> |
             <router-link to="/compras">Ver Compras</router-link>
@@ -12,6 +12,15 @@
 <script>
 
 export default {
+    computed: {
+        auth() {
+            if(this.$store.state.user !== null ) {
+                return this.$store.state.user.role == "ROLE_ADMIN" && this.$store.state.token;
+            } else {
+                return false;
+            }
+        }
+    }
 };
 </script>
 
@@ -26,6 +35,8 @@ export default {
 
 #nav {
   padding: 30px;
+  background: #fcdab7;
+  text-align: center;
 }
 
 #nav a {

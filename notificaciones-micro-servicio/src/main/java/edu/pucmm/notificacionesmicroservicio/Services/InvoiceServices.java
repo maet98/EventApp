@@ -34,13 +34,8 @@ public class InvoiceServices {
     }
 
     @Transactional
-    public boolean createInvoice(String username, ArrayList<String> products, Double Total){
-        ArrayList<Product> list = new ArrayList<>();
-        for(String ac: products) {
-            Product product = new Product();
-            product.setName(ac);
-            list.add(pr.save(product));
-        }
+    public boolean createInvoice(String username, List<Product> products, Integer Total){
+        var list = this.pr.saveAll(products);
         Invoice invoice = new Invoice(username, list, Total);
         if(facturaRepositories.findById(invoice.getId()) != null){
             return false;
@@ -64,7 +59,7 @@ public class InvoiceServices {
         EmpleadosDTO empleadosDTO = new EmpleadosDTO();
         restTemplate.postForObject("http://USUARIO-SERVICIOS/getEmpleados", empleadosDTO, EmpleadosDTO.class);
         for(String correo: empleadosDTO.getCorreos()){
-            es.sendEmail(correo, "Compra realizada", "El Cliente " + compraDTO.getUsuario() + " ha realizado una compra para " + compraDTO.getPlan() + " para el dia " + compraDTO.getFechaCompra() );
+            es.sendEmail(correo, "Compra realizada", "El Cliente " + compraDTO.getUsuario() + " ha realizado una compra para " + compraDTO.getProducts().get(0).getName() + " para el dia " + compraDTO.getFechaCompra() );
         }
         return "Correos enviados!";
     }

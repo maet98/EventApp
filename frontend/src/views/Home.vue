@@ -1,8 +1,10 @@
 <template>
-  <div class="small">
-    <line-chart :chart-data="datacollection"></line-chart>
-    <button @click="addNew()">Randomize</button>
-  </div>
+    <div>
+      <div class="small"  >
+        <line-chart :chart-data="datacollection"></line-chart>
+        <button @click="addNew()">Randomize</button>
+      </div>
+    </div>
 </template>
 
 <script>

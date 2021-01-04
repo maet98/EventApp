@@ -5,9 +5,23 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        apiUrl: process.env.APIURL || "http://localhost:8989/"
+        apiUrl: process.env.APIURL || "http://localhost:8989/",
+        token: true,
+        user: null
     },
-    mutations: {},
-    actions: {},
-    modules: {}
+    mutations: {
+      toggle (state, payload) {
+          state.token = payload;
+      },
+        changeUser(state, payload) {
+            state.user = payload;
+        }
+    },
+    actions: {
+      toggle (state, payload) {
+          state.isAuthenticated = payload;
+      }
+    },
+    modules: {
+    }
 });

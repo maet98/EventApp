@@ -1,6 +1,8 @@
-package edu.pucmm.microserviciousuario.Classes;
+package edu.pucmm.apigateway.Entity;
+
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class User {
@@ -13,12 +15,14 @@ public class User {
     private String password;
     @Column(length = 2000)
     private String email;
+
     private String role;
 
     public User(){}
 
-    public User(String username, String password, String email, String role){
+    public User(String username, String name, String password, String email, String role) {
         this.username = username;
+        this.name = name;
         this.password = password;
         this.email = email;
         this.role = role;

@@ -18,11 +18,9 @@ public class Invoice {
     @ManyToMany
     private List<Product> products;
 
-    private double total;
+    private Integer total;
 
-    public Invoice(){}
-
-    public Invoice(String username, ArrayList<Product> products, double total){
+    public Invoice(String username, List<Product> products, Integer total){
         this.username = username;
         this.products = products;
         this.total = total;

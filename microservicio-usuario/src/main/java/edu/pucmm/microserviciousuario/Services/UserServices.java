@@ -5,6 +5,7 @@ import edu.pucmm.microserviciousuario.Repository.UserRepository;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -34,12 +35,17 @@ public class UserServices {
         return ur.findByEmail(email);
     }
 
-    public void createAdmin() {
+    public List<User> findEmployee() {
+        return ur.findAllByRole("ROLE_EMPLEADO");
+    }
+
+    public void createAdmin() throws Exception {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String username = "admin";
-        String password = DigestUtils.md5Hex("admin");
+        String password = bCryptPasswordEncoder.encode("admin");
         String email = "admin@admin.com";
-        String role = "ADMIN";
-        if(ur.count() == 0) createUser(new User(username, password, email, role));
+        String role = "ROLE_ADMIN";
+        if(ur.count() == 0) ur.save(new User(username, password, email, role));
     }
 
     public boolean validateUser(String username, String password){
@@ -51,14 +57,19 @@ public class UserServices {
     }
 
     @Transactional
-    public boolean createUser(User user){
+    public User createUser(User user) throws Exception {
         if(ur.findByUsername(user.getUsername()) != null){
-            return false;
+            throw new Exception("User already created");
         }
-        User userResponse = template.postForObject("http://NOTIFICACION-SERVICIO/sendAccountNotification", user, User.class);
-        System.out.println(userResponse.getEmail());
-        ur.save(user);
-        return true;
+        try {
+
+            User result = template.postForObject("http://NOTIFICACION-SERVICIO/sendAccountNotification", user, User.class);
+        } catch (Exception er) {
+
+        }
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return ur.save(user);
     }
 
     @Transactional

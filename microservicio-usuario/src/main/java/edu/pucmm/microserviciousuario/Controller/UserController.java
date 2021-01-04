@@ -42,6 +42,11 @@ public class UserController {
         return "Soy el micro servicio de estudiante desde el puerto: " + request.getLocalPort();
     }
 
+    @GetMapping("/employees")
+    public List<User> getAllEmployees() {
+        return this.us.findEmployee();
+    }
+
     @GetMapping
     public @ResponseBody List<User> getUsers(){
         return us.findAllUsers();
@@ -53,10 +58,8 @@ public class UserController {
     }
 
     @PostMapping(value = "/createUser")
-    public ResponseEntity<String> createUser(@RequestBody User user){
-        user.setPassword(DigestUtils.md5Hex(user.getPassword()));
-        us.createUser(user);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public User createUser(@RequestBody User user) throws Exception {
+        return us.createUser(user);
     }
 
     @DeleteMapping(value = "/deleteUser")

@@ -6,6 +6,7 @@ import edu.pucmm.notificacionesmicroservicio.DTO.UsuarioDTO;
 import edu.pucmm.notificacionesmicroservicio.Services.EmailServices;
 import edu.pucmm.notificacionesmicroservicio.Services.InvoiceServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,21 +23,19 @@ public class NotificationsController {
     @RequestMapping("/hw")
     public String helloWorld(){ return "Hello World!"; }
 
-    @RequestMapping("/createInvoice")
-    public String createInvoice(String username, String email, ArrayList<String> products, double total){
-        is.createInvoice(username, products, total);
-        es.sendEmail(email, "Gracias por realizar una compra!", "RESUMEN_DE_LA_COMPRA");
-        return "compra realizada!";
+    @PostMapping("/createInvoice")
+    public CompraDTO createInvoice(@RequestBody CompraDTO compraDTO){
+        System.out.println(compraDTO.getTotal());
+        is.createInvoice(compraDTO.getUsuario(), compraDTO.getProducts(), compraDTO.getTotal());
+        //is.sendCorreoCompra(compraDTO);
+        es.sendEmail(compraDTO.getEmail(), "Gracias por realizar una compra!", "RESUMEN_DE_LA_COMPRA");
+        return compraDTO;
     }
 
-    @RequestMapping("/sendAccountNotification")
-    public String sendAccountNotification(@RequestBody UsuarioDTO usuarioDTO){
-        es.sendEmail(usuarioDTO.getEmail(), "Nueva cuenta!", "Aqui el reporte de su cuenta, nombre de usuario es " + usuarioDTO.getUsername() + "y la contraseña es " + usuarioDTO.getPassword());
-        return "";
+    @PostMapping("/sendAccountNotification")
+    public UsuarioDTO sendAccountNotification(@RequestBody UsuarioDTO usuarioDTO){
+        es.sendEmail(usuarioDTO.getEmail(), "Nueva cuenta!", "Aqui el reporte de su cuenta, nombre de usuario es " + usuarioDTO.getUsername() + " y la contraseña es " + usuarioDTO.getPassword());
+        return usuarioDTO;
     }
 
-    @RequestMapping("/notifyAll")
-    public String correoCompra(@RequestBody CompraDTO compraDTO)  {
-        return is.sendCorreoCompra(compraDTO);
-    }
 }

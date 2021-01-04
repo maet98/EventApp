@@ -1,6 +1,5 @@
 package edu.pucmm.comprasmicroservicio.entity;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,7 +7,9 @@ import lombok.Setter;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,8 +20,11 @@ public class Compras {
     @Id
     private Long id;
     private String usuario;
+    private String email;
     private LocalDate fechaEvento;
     private LocalDate fechaCompra;
-    private String plan;
-    private Integer costo;
+
+    @ManyToMany
+    List<Product> products;
+    private Integer total;
 }

@@ -22,8 +22,6 @@
 </template>
 
 <script>
-    import axios from "axios"
-    let apiUri = "http://localhost:8989"
 
   export default {
     data () {
@@ -73,11 +71,19 @@
       },
       methods: {
           getEvents() {
-              axios.get(apiUri + "/event/compras")
-                  .then(ans => {
-                      console.log(ans.data);
-                      this.events = ans.data;
-                  })
+              if(this.$store.state.user.role === "ROLE_ADMIN") {
+                  window.axios.get("/event/compras")
+                      .then(ans => {
+                          console.log(ans.data);
+                          this.events = ans.data;
+                      })
+              } else {
+                  window.axios.get("/event/compras/" + this.$store.state.user.username)
+                      .then(ans => {
+                          console.log(ans.data);
+                          this.events = ans.data;
+                      })
+              }
           }
       }
   }

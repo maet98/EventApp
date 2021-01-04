@@ -16,9 +16,9 @@
             :headers="headers"
             :items="users"
             :search="search"
-            sort-by="calories"
             class="elevation-1"
           >
+
             <template v-slot:top>
               <v-toolbar
                 flat
@@ -85,8 +85,10 @@
                             md="4"
                           >
                             <v-select
-                              v-model="editedItem.type"
+                              v-model="editedItem.role"
                               :items="types"
+                              item-text="text"
+                              item-value="value"
                               label="Tipo"
                             ></v-select>
                           </v-col>
@@ -165,18 +167,21 @@
 </template>
 
 <script>
-import axios from "axios"
-import UsuarioForm from "../components/UsuarioForm";
 
   export default {
-      components: {
-          UsuarioForm
-      },
     data: () => ({
         search: '',
       dialog: false,
       dialogDelete: false,
-        types: ['Cliente', 'Empleado'],
+        types: [ {
+            text: 'Cliente',
+            value: "ROLE_CLIENTE"
+        }
+        , {
+              text:  'Empleado',
+              value: "ROLE_EMPLEADO"
+            }
+        ],
       headers: [
         {
           text: 'Username',
@@ -209,14 +214,14 @@ import UsuarioForm from "../components/UsuarioForm";
           name: '',
           email: '',
           password: '',
-          tipo: ''
+          role: ''
       },
       defaultItem: {
           username: '',
           name: '',
           email: '',
           password: '',
-          tipo: ''
+          role: ''
       },
     }),
 
@@ -241,7 +246,7 @@ import UsuarioForm from "../components/UsuarioForm";
 
     methods: {
         getAllUser() {
-            axios.get(this.$store.state.apiUrl+"/user/usuarios")
+            window.axios.get(this.$store.state.apiUrl+"user/usuarios")
                 .then(ans => {
                     this.users = ans.data;
                     console.log(ans.data);
@@ -264,7 +269,7 @@ import UsuarioForm from "../components/UsuarioForm";
       },
 
       deleteItemConfirm () {
-          axios.delete(this.$store.state.apiUrl+ "usuario/" + this.editedIndex)
+          window.axios.delete(this.$store.state.apiUrl+ "usuario/" + this.editedIndex)
               .then(ans => {
                     this.desserts.splice(this.editedIndex, 1)
                     this.closeDelete()
@@ -288,10 +293,11 @@ import UsuarioForm from "../components/UsuarioForm";
       },
 
       save () {
+
         if (this.editedIndex > -1) {
           Object.assign(this.users[this.editedIndex], this.editedItem)
         } else {
-            axios.post(this.$store.state.apiUrl + "user/usuarios/createUser",this.editedItem)
+            window.axios.post(this.$store.state.apiUrl + "user/usuarios/createUser",this.editedItem)
                 .then(ans => {
                   this.users.push(this.editedItem)
                 })

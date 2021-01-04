@@ -11,13 +11,14 @@ import java.util.Scanner;
 @Service
 public class EmailServices {
     public boolean sendEmail(String email, String subject, String content){
-        Email from = new Email("20170982@ce.pucmm.edu.do");
+        Email from = new Email("no-reply@em9523.miguelestevez.xyz");
         Email toEmail = new Email(email);
         Content plainContent = new Content("text/plain", content);
         Mail mail = new Mail(from, subject, toEmail, plainContent);
 
-        SendGrid sg = new SendGrid("API_KEY_HERE");
+        SendGrid sg = new SendGrid("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");
         Request request = new Request();
+        System.out.println("Se envio");
 
         try {
             request.setMethod(Method.POST);
@@ -30,8 +31,10 @@ public class EmailServices {
             System.out.println(response.getHeaders());
         } catch (IOException ex) {
             ex.printStackTrace();
+            System.out.println("Error");
             return false;
         }
+        System.out.println("Todo Bien");
         return true;
     }
 

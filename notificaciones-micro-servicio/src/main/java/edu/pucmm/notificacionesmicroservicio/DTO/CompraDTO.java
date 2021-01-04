@@ -1,5 +1,6 @@
 package edu.pucmm.notificacionesmicroservicio.DTO;
 
+import edu.pucmm.notificacionesmicroservicio.Classes.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,8 +14,9 @@ import java.util.List;
 public class CompraDTO {
     private Long id;
     private String usuario;
+    private String email;
     private LocalDate fechaEvento;
     private LocalDate fechaCompra;
-    private String plan;
-    private Integer costo;
+    private List<Product> products;
+    private Integer total;
 }
