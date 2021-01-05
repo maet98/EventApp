@@ -25,13 +25,13 @@ public class ReportService {
 
     public byte[] exportReport(String reportFormat, int id) throws FileNotFoundException, JRException {
         byte[] output = new byte[0];
-        List<Invoice> events = new ArrayList<>();
-        Invoice event = facturaRepository.findById(id);
-        events.add(event);
+        List<Invoice> invoices = new ArrayList<>();
+        Invoice invoice = facturaRepository.findById(id);
+        invoices.add(invoice);
 
         File file = ResourceUtils.getFile("classpath:reporte.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
-        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(events);
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(invoices);
         Map<String, Object> parameters = new HashMap<>();
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
         if(reportFormat.equalsIgnoreCase("pdf")){
