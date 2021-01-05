@@ -10,5 +10,13 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class EmpleadosDTO {
+    public List<String> getCorreos() {
+        return correos;
+    }
+
+    public void setCorreos(List<String> correos) {
+        this.correos = correos;
+    }
+
     List<String> correos;
 }
