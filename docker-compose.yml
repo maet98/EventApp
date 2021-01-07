@@ -3,6 +3,9 @@ version: '3.7'
 services:
   config-server:
     image: maet98/config-server
+    restart: always
+    environment: 
+      eureka-server: eureka-server
     ports:
       - 8888:8888
     networks:
@@ -10,6 +13,7 @@ services:
 
   eureka-server:
     image: maet98/eureka-server
+    restart: always
     ports:
       - 8761:8761
     networks:
@@ -18,11 +22,20 @@ services:
   base-datos-compras:
     image: mysql
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: compras
     ports:
-      - 3307:3306
+      - 3309:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 1998
+      MYSQL_DATABASE: compras
+    networks:
+      - mi-red
+
+  base-datos-notificacion:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 1998
+      MYSQL_DATABASE: notificacion
     networks:
       - mi-red
 
@@ -30,33 +43,111 @@ services:
     image: mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_ROOT_PASSWORD: 1998
       MYSQL_DATABASE: usuarios
-    ports:
-      - 3308:3306
     networks:
       - mi-red
-        
-  microservicio-usuario:
+
+  microservicio-usuario1:
     image: maet98/microservicio-usuario
+    restart: always
     environment:
       base-datos-usuarios: base-datos-usuarios
       eureka-server: eureka-server
       config-server: config-server
-      MYSQL_URL: mysql://base-datos-usuarios:3308/usuarios
+      microservicio-usuario: microservicio-usuario1
+      MYSQL_URL: mysql://base-datos-usuarios:3306/usuarios
     networks:
       - mi-red
     depends_on:
       - base-datos-usuarios
       - config-server
 
-  microservicio-compras:
-    image: maet98/microservicio-compra
+  microservicio-usuario2:
+    image: maet98/microservicio-usuario
+    restart: always
     environment:
-      base-datos-usuarios: base-datos-compras
+      base-datos-usuarios: base-datos-usuarios
       eureka-server: eureka-server
       config-server: config-server
-      MYSQL_URL: mysql://base-datos-compras:3307/compras
+      microservicio-usuario: microservicio-usuario2
+      MYSQL_URL: mysql://base-datos-usuarios:3306/usuarios
+    networks:
+      - mi-red
+    depends_on:
+      - base-datos-usuarios
+      - config-server
+
+  microservicio-usuario3:
+    image: maet98/microservicio-usuario
+    restart: always
+    environment:
+      base-datos-usuarios: base-datos-usuarios
+      eureka-server: eureka-server
+      config-server: config-server
+      microservicio-usuario: microservicio-usuario3
+      MYSQL_URL: mysql://base-datos-usuarios:3306/usuarios
+    networks:
+      - mi-red
+    depends_on:
+      - base-datos-usuarios
+      - config-server
+
+
+  microservicio-notificacion1:
+    image: maet98/microservicio-notificacion
+    restart: always
+    environment:
+      base-datos-notificacion: base-datos-notificacion
+      eureka-server: eureka-server
+      NOTIFICACION: microservicio-notificacion1
+      config-server: config-server
+      MYSQL_URL: mysql://base-datos-notificacion:3306/notificacion
+    networks:
+      - mi-red
+    depends_on:
+      - base-datos-notificacion
+      - config-server
+
+  microservicio-notificacion2:
+    image: maet98/microservicio-notificacion
+    restart: always
+    environment:
+      base-datos-notificacion: base-datos-notificacion
+      eureka-server: eureka-server
+      NOTIFICACION: microservicio-notificacion2
+      config-server: config-server
+      MYSQL_URL: mysql://base-datos-notificacion:3306/notificacion
+    networks:
+      - mi-red
+    depends_on:
+      - base-datos-notificacion
+      - config-server
+
+  microservicio-notificacion3:
+    image: maet98/microservicio-notificacion
+    restart: always
+    environment:
+      base-datos-notificacion: base-datos-notificacion
+      eureka-server: eureka-server
+      NOTIFICACION: microservicio-notificacion3
+      config-server: config-server
+      MYSQL_URL: mysql://base-datos-notificacion:3306/notificacion
+    networks:
+      - mi-red
+    depends_on:
+      - base-datos-notificacion
+      - config-server
+
+  microservicio-compras1:
+    image: maet98/microservicio-compra
+    restart: always
+    environment:
+      base-datos-usuarios: base-datos-compras
+      eureka-server : eureka-server
+      configServer: config-server
+      microservicio-compras: microservicio-compras1
+      MYSQL_URL: mysql://base-datos-compras:3306/compras
     networks:
       - mi-red
     depends_on:
@@ -64,20 +155,56 @@ services:
       - config-server
 
 
+  microservicio-compras2:
+    image: maet98/microservicio-compra
+    restart: always
+    environment:
+      base-datos-usuarios: base-datos-compras
+      eureka-server : eureka-server
+      configServer: config-server
+      microservicio-compras: microservicio-compras2
+      MYSQL_URL: mysql://base-datos-compras:3306/compras
+    networks:
+      - mi-red
+    depends_on:
+      - base-datos-compras
+      - config-server
+
+  microservicio-compras3:
+    image: maet98/microservicio-compra
+    restart: always
+    environment:
+      base-datos-usuarios: base-datos-compras
+      eureka-server : eureka-server
+      configServer: config-server
+      microservicio-compras: microservicio-compras3
+      MYSQL_URL: mysql://base-datos-compras:3306/compras
+    networks:
+      - mi-red
+    depends_on:
+      - base-datos-compras
+      - config-server
+
   api-gateway:
     image: maet98/api-gateway
+    restart: always
     ports:
       - 8989:8989
     environment:
+      MYSQL_URL: mysql://base-datos-usuarios:3306/usuarios
       eureka-server: eureka-server
       config-server: config-server
+      api-gateway: api-gateway
+    networks:
+      - mi-red
     depends_on:
       - config-server
 
   app-web:
     image: maet98/webserver
+    restart: always
     ports:
-      - 80:8080
+      - 8080:80
 
 networks:
   mi-red:

@@ -2,6 +2,7 @@
   <div class="centerdiv">
       <form @submit.prevent="login" class="login-form center">
           Iniciar Sesion
+          <h3 v-if="error.length !== 0" class="error">{{error}}</h3>
           <v-text-field label="username" v-model="body.username" />
           <v-text-field type="password" label="password" v-model="body.password" />
             <v-btn
@@ -24,9 +25,12 @@
 
 <script>
 import axios from "axios";
+import toast from 'vuetify-toast';
+
 export default {
   data() {
     return {
+        error: '',
         body: {
             username: '',
             password: ''
@@ -47,7 +51,8 @@ export default {
             localStorage.setItem("token", payload.token);
             localStorage.setItem("user", JSON.stringify(payload.user));
             this.$store.commit('changeUser',payload.user);
-            this.$store.dispatch("toggle", true);
+            this.$store.commit("toggle", true);
+            toast.success('The document has been saved.');
             const instance = axios.create({
               baseURL: this.$store.state.apiUrl,
                 timeout: 3000,
@@ -58,7 +63,11 @@ export default {
 
             this.$router.push("/");
         })
-        .catch(err => console.log(err));
+            .catch(err =>{
+                this.loading = false;
+                this.error = "Malas credenciales";
+                console.log(err)
+            });
     }
   },
     watch: {
@@ -77,6 +86,24 @@ export default {
     left: 50%;
     width: 800px;
     margin: -100px 0 0 -150px;
+}
+
+.error {
+    color: red;
+    text-align: center;
+    animation: alert 1s infinite;
+}
+
+@keyframes alert
+{
+    0%
+    {
+        color: red;
+    }
+    50%
+    {
+        color:#133b5c;
+    }
 }
 
 .center {

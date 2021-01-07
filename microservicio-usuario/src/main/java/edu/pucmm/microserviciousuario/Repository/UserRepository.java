@@ -11,7 +11,9 @@ public interface UserRepository extends JpaRepository<User, String> {
     User findByUsername(String username);
     List<User> findAll();
     User findByEmail(String email);
-    List<User> findAllByRole(String role);
+    @Query("select u.email from User u where u.role = :role")
+    List<String> getbyRole(String role);
+
     @Query("SELECT COUNT(1) FROM User u WHERE u.email = :email")
     int existsByEmail(@Param("email") String email);
 }

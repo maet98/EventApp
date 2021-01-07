@@ -1,17 +1,19 @@
 package edu.pucmm.notificacionesmicroservicio.Services;
 
 import edu.pucmm.notificacionesmicroservicio.Classes.Invoice;
-import edu.pucmm.notificacionesmicroservicio.Classes.Product;
 import edu.pucmm.notificacionesmicroservicio.DTO.CompraDTO;
 import edu.pucmm.notificacionesmicroservicio.DTO.EmpleadosDTO;
 import edu.pucmm.notificacionesmicroservicio.Repositories.FacturaRepositories;
-import edu.pucmm.notificacionesmicroservicio.Repositories.ProductRepository;
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,9 +26,7 @@ public class InvoiceServices {
     private EmailServices es;
 
     @Autowired
-    ProductRepository pr;
-
-
+    private ReportService reportService;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -36,13 +36,12 @@ public class InvoiceServices {
     }
 
     @Transactional
-    public boolean createInvoice(String username, List<Product> products, Integer Total){
-        var list = this.pr.saveAll(products);
-        Invoice invoice = new Invoice(username, list, Total);
-        if(facturaRepositories.findById(invoice.getId()) != null){
-            return false;
-        }
-        facturaRepositories.save(invoice);
+    public boolean createInvoice(CompraDTO compraDTO) throws FileNotFoundException, JRException {
+        Invoice invoice = new Invoice(compraDTO.getUsuario(), compraDTO.getPlan(), compraDTO.getTotal());
+        var invoice1 = facturaRepositories.save(invoice);
+        var out = this.reportService.exportReport(compraDTO,"pdf", Math.toIntExact(compraDTO.getId()));
+        es.sendEmailAttachment(compraDTO.getEmail(), "Gracias por realizar una compra!", "Resumen de la compra.", out);
+        sendCorreoCompra(out);
         return true;
     }
 
@@ -57,25 +56,18 @@ public class InvoiceServices {
     }
 
     @Transactional
-    public String sendCorreoCompra(CompraDTO compraDTO) {
-        EmpleadosDTO empleadosDTO = new EmpleadosDTO();
-        restTemplate.postForObject("http://USUARIO-SERVICIOS/getEmpleados", empleadosDTO, EmpleadosDTO.class);
-        for(String correo: empleadosDTO.getCorreos()){
-            es.sendEmail(correo, "Compra realizada", "El Cliente " + compraDTO.getUsuario() + " ha realizado una compra para " + compraDTO.getProducts().get(0).getName() + " para el dia " + compraDTO.getFechaCompra() );
+    public void sendCorreoCompra(byte[] out) {
+        ResponseEntity<List<String>> response =  restTemplate.
+                exchange("http://USUARIOS-SERVICIOS/usuarios/employees",
+                        HttpMethod.GET,
+                        null,
+                        new ParameterizedTypeReference<List<String>>() {
+                        }
+                );
+        if(response != null && response.hasBody()){
+            System.out.println(response.getBody());
+            this.es.sendMasssive(response.getBody(),"Asignacion de Evento", "Se ha realizado una compra.",out);
         }
-        return "Correos enviados!";
     }
 
-    @Transactional
-    public boolean editFactura(Invoice invoice){
-        Optional<Invoice> e = Optional.ofNullable(facturaRepositories.findById(invoice.getId()));
-        if(e.isPresent()){
-            Invoice newInvoice = e.get();
-            newInvoice.setUsername(invoice.getUsername());
-            newInvoice.setProducts(invoice.getProducts());
-            newInvoice.setTotal(invoice.getTotal());
-            return true;
-        }
-        return false;
-    }
 }

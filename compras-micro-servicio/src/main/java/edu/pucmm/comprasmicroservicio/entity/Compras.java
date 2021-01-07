@@ -23,8 +23,6 @@ public class Compras {
     private String email;
     private LocalDate fechaEvento;
     private LocalDate fechaCompra;
-
-    @ManyToMany
-    List<Product> products;
+    private String plan;
     private Integer total;
 }

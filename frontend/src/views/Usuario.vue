@@ -170,7 +170,7 @@
 
   export default {
     data: () => ({
-        search: '',
+      search: '',
       dialog: false,
       dialogDelete: false,
         types: [ {
@@ -211,14 +211,12 @@
       editedIndex: -1,
       editedItem: {
           username: '',
-          name: '',
           email: '',
           password: '',
           role: ''
       },
       defaultItem: {
           username: '',
-          name: '',
           email: '',
           password: '',
           role: ''
@@ -257,21 +255,21 @@
         },
 
       editItem (item) {
-        this.editedIndex = this.desserts.indexOf(item)
+        this.editedIndex = this.users.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialog = true
       },
 
       deleteItem (item) {
-        this.editedIndex = this.desserts.indexOf(item)
+        this.editedIndex = this.users.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialogDelete = true
       },
 
       deleteItemConfirm () {
-          window.axios.delete(this.$store.state.apiUrl+ "usuario/" + this.editedIndex)
+          window.axios.delete("usuario/" + this.editedIndex)
               .then(ans => {
-                    this.desserts.splice(this.editedIndex, 1)
+                    this.users.splice(this.editedIndex, 1)
                     this.closeDelete()
               })
       },
@@ -299,7 +297,8 @@
         } else {
             window.axios.post(this.$store.state.apiUrl + "user/usuarios/createUser",this.editedItem)
                 .then(ans => {
-                  this.users.push(this.editedItem)
+                    this.users.push(this.editedItem)
+                    this.editItem = this.defaultItem;
                 })
                 .catch(err => {
                     alert("Hubo un error");

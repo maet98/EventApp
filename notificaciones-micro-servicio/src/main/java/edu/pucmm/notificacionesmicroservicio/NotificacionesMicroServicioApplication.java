@@ -1,5 +1,6 @@
 package edu.pucmm.notificacionesmicroservicio;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -12,8 +13,10 @@ import org.springframework.web.client.RestTemplate;
 @EnableDiscoveryClient
 public class NotificacionesMicroServicioApplication {
 
+
     public static void main(String[] args) {
         SpringApplication.run(NotificacionesMicroServicioApplication.class, args);
+        System.out.println(System.getenv("NOTIFICACION"));
     }
 
     @Bean

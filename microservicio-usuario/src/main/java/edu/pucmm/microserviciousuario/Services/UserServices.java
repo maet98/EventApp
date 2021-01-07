@@ -35,8 +35,8 @@ public class UserServices {
         return ur.findByEmail(email);
     }
 
-    public List<User> findEmployee() {
-        return ur.findAllByRole("ROLE_EMPLEADO");
+    public List<String> findEmployee() {
+        return ur.getbyRole("ROLE_EMPLEADO");
     }
 
     public void createAdmin() throws Exception {

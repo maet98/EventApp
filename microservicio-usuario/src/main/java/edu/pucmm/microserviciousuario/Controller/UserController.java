@@ -43,7 +43,7 @@ public class UserController {
     }
 
     @GetMapping("/employees")
-    public List<User> getAllEmployees() {
+    public List<String> getAllEmployees() {
         return this.us.findEmployee();
     }
 

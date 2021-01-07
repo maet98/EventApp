@@ -1,6 +1,5 @@
 package edu.pucmm.notificacionesmicroservicio.DTO;
 
-import edu.pucmm.notificacionesmicroservicio.Classes.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,6 +16,6 @@ public class CompraDTO {
     private String email;
     private LocalDate fechaEvento;
     private LocalDate fechaCompra;
-    private List<Product> products;
+    private String plan;
     private Integer total;
 }

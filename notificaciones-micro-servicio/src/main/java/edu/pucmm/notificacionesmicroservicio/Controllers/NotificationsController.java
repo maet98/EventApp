@@ -5,12 +5,12 @@ import edu.pucmm.notificacionesmicroservicio.DTO.CompraDTO;
 import edu.pucmm.notificacionesmicroservicio.DTO.UsuarioDTO;
 import edu.pucmm.notificacionesmicroservicio.Services.EmailServices;
 import edu.pucmm.notificacionesmicroservicio.Services.InvoiceServices;
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 @RestController
@@ -20,15 +20,18 @@ public class NotificationsController {
     @Autowired
     EmailServices es;
 
+
+    @Value("${NOTIFICACION}")
+    public String hola;
+
     @RequestMapping("/hw")
-    public String helloWorld(){ return "Hello World!"; }
+    public String helloWorld(){ return "Hello World! " + hola; }
 
     @PostMapping("/createInvoice")
-    public CompraDTO createInvoice(@RequestBody CompraDTO compraDTO){
+    public CompraDTO createInvoice(@RequestBody CompraDTO compraDTO) throws FileNotFoundException, JRException {
         System.out.println(compraDTO.getTotal());
-        is.createInvoice(compraDTO.getUsuario(), compraDTO.getProducts(), compraDTO.getTotal());
+        is.createInvoice(compraDTO);
         //is.sendCorreoCompra(compraDTO);
-        es.sendEmail(compraDTO.getEmail(), "Gracias por realizar una compra!", "RESUMEN_DE_LA_COMPRA");
         return compraDTO;
     }
 

@@ -1,5 +1,7 @@
 package edu.pucmm.comprasmicroservicio.Controller;
 
+import edu.pucmm.comprasmicroservicio.DTO.PurchaseDTO;
+import edu.pucmm.comprasmicroservicio.DTO.TodayDTO;
 import edu.pucmm.comprasmicroservicio.Service.ComprasService;
 import edu.pucmm.comprasmicroservicio.entity.Compras;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,21 @@ public class ComprasController {
     @GetMapping
     public List<Compras> getAll() {
         return this.comprasService.getAll();
+    }
+
+    @GetMapping("/today")
+    public TodayDTO getToday() {
+        return this.comprasService.getToday();
+    }
+
+    @GetMapping("/solicitudes")
+    public List<PurchaseDTO> getSolicitudes() {
+        return this.comprasService.Solicitudes();
+    }
+
+    @GetMapping("/purchases")
+    public List<PurchaseDTO>getPurchases() {
+        return this.comprasService.getPurchase();
     }
 
     @PostMapping

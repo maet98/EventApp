@@ -17,11 +17,14 @@ import java.util.*;
 public class Invoice {
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
     private String username;
-
-    @ManyToMany
-    private List<Product> products;
-
+    private String plan;
     private Integer total;
+
+    public Invoice(String username, String plan, Integer total) {
+        this.username = username;
+        this.plan = plan;
+        this.total = total;
+    }
 }

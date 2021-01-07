@@ -6,13 +6,17 @@
     <queryString language="SQL">
         <![CDATA[SELECT * FROM ORDERS]]>
     </queryString>
-    <field name="id" class="java.lang.Integer">
+    <field name="id" class="java.lang.Long">
     </field>
-    <field name="username" class="java.lang.String">
+    <field name="usuario" class="java.lang.String">
     </field>
-    <field name="products" class="java.lang.Integer">
+    <field name="plan" class="java.lang.String">
     </field>
-    <field name="total" class="java.sql.Timestamp">
+    <field name="fechaCompra" class="java.time.LocalDate">
+    </field>
+    <field name="fechaEvento" class="java.time.LocalDate">
+    </field>
+    <field name="total" class="java.lang.Integer">
     </field>
     <background>
         <band/>
@@ -117,7 +121,16 @@
                 <textFieldExpression><![CDATA[$F{usuario}]]></textFieldExpression>
             </textField>
             <textField textAdjust="StretchHeight">
-                <reportElement x="222" y="0" width="111" height="20" uuid="1687738a-4a13-4cc8-a2d2-a7f032bd694b">
+                <reportElement x="222" y="0" width="111" height="20" uuid="d120ad40-d8ed-4645-8e46-eebb68d90bf9">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="74895201-827c-4392-a94c-45ff93cf8eda"/>
+                </reportElement>
+                <textElement>
+                    <font size="14"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{fechaEvento}]]></textFieldExpression>
+            </textField>
+            <textField textAdjust="StretchHeight">
+                <reportElement x="333" y="0" width="111" height="20" uuid="1687738a-4a13-4cc8-a2d2-a7f032bd694b">
                     <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8c24fef1-6f9f-424a-8409-b53e0728ad0c"/>
                 </reportElement>
                 <textElement>
@@ -126,7 +139,7 @@
                 <textFieldExpression><![CDATA[$F{plan}]]></textFieldExpression>
             </textField>
             <textField textAdjust="StretchHeight">
-                <reportElement x="333" y="0" width="111" height="20" uuid="940a2af7-49ae-4100-814f-2842be2457b8">
+                <reportElement x="444" y="0" width="111" height="20" uuid="940a2af7-49ae-4100-814f-2842be2457b8">
                     <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9c6fc92f-14ad-4ea6-a688-942beb5bee38"/>
                 </reportElement>
                 <textElement>
