@@ -73,11 +73,17 @@ export default {
     position: absolute;
     top: 0px;
     right: 0px;
-    background: red;
-    color: white;
+    border: 1px solid red;
+    color: black;
     padding: 10px;
     border-radius: 4px;
     margin: 8px;
+    transition-duration: 500ms
+}
+
+.logout:hover {
+    background: red;
+    color: white;
 }
 
 #nav a.router-link-exact-active {

@@ -25,7 +25,6 @@
 
 <script>
 import axios from "axios";
-import toast from 'vuetify-toast';
 
 export default {
   data() {
@@ -52,7 +51,6 @@ export default {
             localStorage.setItem("user", JSON.stringify(payload.user));
             this.$store.commit('changeUser',payload.user);
             this.$store.commit("toggle", true);
-            toast.success('The document has been saved.');
             const instance = axios.create({
               baseURL: this.$store.state.apiUrl,
                 timeout: 3000,

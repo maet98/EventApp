@@ -74,16 +74,22 @@ public class UserServices {
 
     @Transactional
     public boolean editUser(User user){
-        Optional<User> e = Optional.ofNullable(ur.findByUsername(user.getUsername()));
-        if(e.isPresent()){
-            User newUser = e.get();
+        User newUser = new User();
+        if(user.getUsername() != null) {
             newUser.setUsername(user.getUsername());
-            newUser.setEmail(user.getEmail());
-            newUser.setPassword(user.getPassword());
-            newUser.setRole(user.getRole());
-            return true;
         }
-        return false;
+        if(user.getEmail() != null){
+
+            newUser.setEmail(user.getEmail());
+        }
+        if(!user.getPassword().isEmpty()){
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            newUser.setPassword(user.getPassword());
+        }
+        newUser.setRole(user.getRole());
+        this.ur.save(newUser);
+        return true;
     }
 
     @Transactional

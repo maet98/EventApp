@@ -62,15 +62,15 @@ public class UserController {
         return us.createUser(user);
     }
 
-    @DeleteMapping(value = "/deleteUser")
-    public ResponseEntity<String> deleteUser(@RequestParam("username") String username){
+    @DeleteMapping(value = "/deleteUser/{username}")
+    public ResponseEntity<String> deleteUser(@PathVariable("username") String username){
         us.deleteUser(username);
         return new ResponseEntity<>(HttpStatus.GONE);
     }
 
     @PutMapping("/updateUser")
-    public String editUser(@RequestParam("username") String username){
-        us.editUser(us.findUser(username));
+    public String editUser(@RequestBody User user){
+        us.editUser(user);
         return "";
     }
 }

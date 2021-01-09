@@ -116,7 +116,7 @@
                 console.log(order);
                   window.axios.post("event/compras",this.compra)
                       .then(ans => {
-                          console.log(ans.data)
+                          this.$store.commit("addEvent",ans.data);
                           this.dialog = false;
                       }).catch(err => {
                           console.log(err);
